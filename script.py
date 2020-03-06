@@ -1,4 +1,6 @@
 import os
+import glob
+
 total_count =0
 
 def word_count(word,book):
@@ -17,13 +19,19 @@ def word_count(word,book):
 def word_list(genre,book):
     with open(genre) as f:
         datafile = f.readlines()
+    f_csv = genre.rstrip('.txt') #saves the csv file as the genre name from the list
     for word in datafile:
         word = word.rstrip('\n')
         #print(word)
-        f_csv = genre.rstrip('.txt') #saves the csv file as the genre name from the list
+        
         fw = open(f_csv+".csv","a") #opens file
         fw.write(book+"," + word + "," + word_count(word,book)+"\n")
         fw.close
+
+    print(total_count)
+    fw = open(f_csv+".csv","a") #opens file
+    fw.write(book+"," + "Total Count of "+f_csv+" words," + str(total_count)+"\n")
+    fw.close
 
 
 #word_list('Romance.txt','Romance/1569-0.txt')
@@ -36,10 +44,9 @@ def Genre_Word_Count(genre):
     for file in os.listdir(directory):
         total_count = 0
         book = os.fsdecode(file)
-        if book.endswith(".txt"): 
-            word_list(genre,folder+"/"+book)
+        word_list(genre,folder+"/"+book)
         fw = open(folder+".csv","a") #opens file
-        fw.write(book+"," + "Total Count of "+folder+" words," + str(total_count)+"\n")
+        #fw.write(book+"," + "Total Count of "+folder+" words," + str(total_count)+"\n")
         fw.write(",,\n")
         fw.close
 
