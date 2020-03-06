@@ -1,6 +1,8 @@
 import os
+total_count =0
 
 def word_count(word,book):
+    global total_count
     count = 0
     with open(book) as f:
         datafile = f.readlines()
@@ -9,6 +11,7 @@ def word_count(word,book):
         if word in line:
             count+=1
     f.close()
+    total_count = total_count+count
     return str(count) # Because you finished the search without finding
 
 def word_list(genre,book):
@@ -27,14 +30,16 @@ def word_list(genre,book):
 
 
 def Genre_Word_Count(genre):
+    global total_count
     folder=genre.rstrip('.txt')
     directory = os.fsencode(folder)
     for file in os.listdir(directory):
+        total_count = 0
         book = os.fsdecode(file)
         if book.endswith(".txt"): 
             word_list(genre,folder+"/"+book)
-    
         fw = open(folder+".csv","a") #opens file
+        fw.write(book+"," + "Total Count of "+folder+" words," + str(total_count)+"\n")
         fw.write(",,\n")
         fw.close
 
